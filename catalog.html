@@ -1,4 +1,6 @@
-function sendProductView(){
+<script src="https://assets.adobedtm.com/666644a00be2/4265a29eb55a/launch-3e5828650784-development.min.js" async></script>
+<script>
+     function sendProductView(){
      if(typeof window.alloy !== 'function'){ return; }
      window.alloy('sendEvent',{
        // Ask Target for a named decision so it receives these entity attributes.
@@ -11,3 +13,4 @@ function sendProductView(){
   // Adobe Tags library is loaded asynchronously. Wait until alloy is defined without altering Tags.
   var tries=0;var poll=setInterval(function(){tries++;if(typeof window.alloy==='function'){clearInterval(poll);sendProductView();}else if(tries>=30){clearInterval(poll);}},250);
 }());
+     </script>
