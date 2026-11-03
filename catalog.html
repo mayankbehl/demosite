@@ -8,15 +8,7 @@
   var item = (window.READING_NOOK_CATALOG || []).find(function(x){return x.id === id;}) || window.READING_NOOK_CATALOG[0];
   window.readingNookCurrentBook = item;
   document.title = item.name + ' | The Reading Nook';
-  var root=document.getElementById('book-detail');
-  var left=document.createElement('div');left.className='recs-detail__cover';left.style.background=item.background;left.style.color=item.color;left.textContent=item.name;
-  var right=document.createElement('div');
-  var genre=document.createElement('p');genre.className='recs-detail__genre';genre.textContent=item.category;
-  var title=document.createElement('h1');title.className='recs-detail__title';title.textContent=item.name;
-  var desc=document.createElement('p');desc.textContent=item.message;
-  var price=document.createElement('p');price.className='recs-detail__price';price.textContent='$'+item.value.toFixed(2)+' (demo)';
-  var link=document.createElement('a');link.className='recs-detail__btn';link.href='catalog.html';link.textContent='Back to catalog';
-  right.append(genre,title,desc,price,link);root.innerHTML='';var wrap=document.createElement('div');wrap.className='recs-detail__grid';wrap.append(left,right);root.append(wrap);
+ 
   // Explicit item-view event for catalog signals; existing Tags page-load rule remains in place.
   // Recs parameters belong under data.__adobe.target, not the top level of data.
   function sendProductView(){
