@@ -12,5 +12,5 @@
   }
   // Adobe Tags library is loaded asynchronously. Wait until alloy is defined without altering Tags.
   var tries=0;var poll=setInterval(function(){tries++;if(typeof window.alloy==='function'){clearInterval(poll);sendProductView();}else if(tries>=30){clearInterval(poll);}},250);
-}());
+}();
      </script>
