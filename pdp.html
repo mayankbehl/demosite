@@ -42,6 +42,31 @@
 
   <!-- Existing Adobe Tags DEVELOPMENT embed retained exactly as provided. -->
 <script src="https://assets.adobedtm.com/666644a00be2/4265a29eb55a/launch-3e5828650784-development.min.js" async></script>
+  <script src="catalog-data.js" async></script>
+<script>
+(function(){
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id') || 'RN-001';
+  var item = (window.READING_NOOK_CATALOG || []).find(function(x){return x.id === id;}) || window.READING_NOOK_CATALOG[0];
+  window.readingNookCurrentBook = item;
+  document.title = item.name + ' | The Reading Nook';
+ 
+  // Explicit item-view event for catalog signals; existing Tags page-load rule remains in place.
+  // Recs parameters belong under data.__adobe.target, not the top level of data.
+  function sendProductView(){
+     if(typeof window.alloy !== 'function'){ return; }
+     window.alloy('sendEvent',{
+       // Ask Target for a named decision so it receives these entity attributes.
+       personalization:{decisionScopes:['reading-nook-product-view']},
+       xdm:{eventType:'commerce.productViews',commerce:{productViews:{value:1}},web:{webPageDetails:{URL:location.href,name:item.name}}},
+       data:{__adobe:{target:{'entity.id':item.id,'entity.name':item.name,'entity.categoryId':item.category,'entity.pageUrl':item.pageUrl,'entity.thumbnailUrl':item.thumbnailUrl,'entity.message':item.message,'entity.value':String(item.value),'entity.inventory':'10'}}},
+       renderDecisions:false
+     }).catch(function(err){console.warn('Recommendations product-view event failed',err);});
+  }
+  // Adobe Tags library is loaded asynchronously. Wait until alloy is defined without altering Tags.
+  var tries=0;var poll=setInterval(function(){tries++;if(typeof window.alloy==='function'){clearInterval(poll);sendProductView();}else if(tries>=30){clearInterval(poll);}},250);
+}());
+     </script>
 
   <style>
     :root {
